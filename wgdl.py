@@ -28,6 +28,8 @@ res.raise_for_status()
 
 soup = bs4.BeautifulSoup(res.text, "html.parser")
 
+title = soup.select(".subject")[0].getText()
+
 images = set()
 anchors = soup.select("a")
 for a in anchors:
@@ -38,8 +40,7 @@ for a in anchors:
             break
 
 total = len(images)
-# TODO: read title of thread or ask user fora name without guessing
-dirname = "wg_" + sys.argv[1]
+dirname = (title if title != '' else 'wg')
 os.mkdir(dirname)
 draw_progress(0, total)
 for num, img in enumerate(images):
