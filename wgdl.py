@@ -33,7 +33,9 @@ title = soup.select(".subject")[0].getText()
 images = set()
 anchors = soup.select("a")
 for a in anchors:
-    href = "https:" + a.get("href")
+    href = a.get("href")
+    if "http" not in href:
+        href = "https:" + href
     for it in IMAGE_TYPE:
         if it in href:
             images.add(href)
@@ -49,3 +51,5 @@ for num, img in enumerate(images):
         for chunk in res.iter_content(10000):
             fp.write(chunk)
     draw_progress(num+1, total)
+
+sys.stdout.write("\n")
